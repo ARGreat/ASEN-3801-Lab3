@@ -69,27 +69,19 @@ x_fit = linspace(min(Rate_Input), max(Rate_Input), 100); % Points along x for li
 y_fit = polyval(p, x_fit);                               % Compute corresponding y
 
 figure;
-subplot(3,1,1)
+subplot(2,1,1)
 % Scatter raw data
-scatter(Rate_Input, Gyro_Output, 0.25, 'filled') 
-xlabel('Input Rate (rad/s)')
-ylabel('Gyro Output (rad/s)')
-title('Raw Input vs Gyro Output')
-grid on;
-
-subplot(3,1,2)
-% Scatter raw data
-scatter(Rate_Input, Gyro_Output, 0.25, 'filled') 
+scatter(Rate_Input, Gyro_Output, 2.5, 'filled') 
 hold on;
 % Plot fitted line
-plot(x_fit, y_fit, 'r')                           
+plot(x_fit, y_fit, 'r', 'LineWidth', 1)                           
 xlabel('Input Rate (rad/s)')
 ylabel('Gyro Output (rad/s)')
 legend('Data', 'Line of Best Fit')
 title('Gyro Calibration Fit')
 grid on;
 
-subplot(3,1,3)
+subplot(2,1,2)
 % Plot calibrated output over time
 plot(time_1, Corrected_Output)                    
 hold on;
@@ -144,7 +136,7 @@ Corrected_Output4 = (Gyro_Output4 - bias4) / scale_factor4;
 
 % Calibrated vs True Angular Rate
 figure;
-subplot(1,2,1)
+subplot(2,1,1)
 % Calibrated angular rate (run 3)
 plot(time_3, Corrected_Output3) 
 hold on;
@@ -156,7 +148,7 @@ legend('Calibrated Output', 'True Input');
 title('Calibrated vs True Angular Rate (Run 3)');
 grid on;
 
-subplot(1,2,2)
+subplot(2,1,2)
 % Calibrated angular rate (run 4)
 plot(time_4, Corrected_Output4) 
 hold on;
@@ -175,14 +167,14 @@ Measurement_error4 = Corrected_Output4 - Rate_Input4;
 
 % Measurement error plots
 figure; 
-subplot(1,2,1)
+subplot(2,1,1)
 plot(time_3, Measurement_error3)
 xlabel('Time (s)')
 ylabel('Angular Rate Error (rad/s)')
 title('Rate Measurement Error (Run 3)');
 grid on;
 
-subplot(1,2,2)
+subplot(2,1,2)
 plot(time_4, Measurement_error4)
 xlabel('Time (s)')
 ylabel('Angular Rate Error (rad/s)')
@@ -197,7 +189,7 @@ Input_position4 = cumtrapz(time_4, Rate_Input4);
 
 % Compare Angular Positions 
 figure; 
-subplot(1,2,1)
+subplot(2,1,1)
 % Calibrated angular position (run 3)
 plot(time_3, Gyro_position3) 
 hold on;
@@ -209,7 +201,7 @@ legend('Measured Position', 'True Position');
 title('Angular Position vs Time (Run 3)');
 grid on;
 
-subplot(1,2,2)
+subplot(2,1,2)
 % Calibrated angular position (run 4)
 plot(time_4, Gyro_position4)
 hold on;
@@ -226,52 +218,33 @@ Gyro_error3 = Gyro_position3 - Input_position3;
 Gyro_error4 = Gyro_position4 - Input_position4;
 
 figure; 
-subplot(1,2,1)
+subplot(2,1,1)
 plot(time_3, Gyro_error3)
 xlabel('Time (s)')
 ylabel('Angular Position Error (rad)')
 title('Angular Position Error vs Time (Run 3)');
 grid on;
 
-subplot(1,2,2)
+subplot(2,1,2)
 plot(time_4, Gyro_error4)
 xlabel('Time (s)')
 ylabel('Angular Position Error (rad)')
 title('Angular Position Error vs Time (Run 4)');
 grid on;
 
-% Scatter Comparison
+% Input Rate and Angular Position Error Comparison
 figure;
-subplot(1,2,1)
-scatter(Input_position3, Gyro_position3, 1, 'filled') 
+subplot(2,1,1)
+plot(Rate_Input3, Gyro_error3)
 xlabel('True Angular Position (rad)')
 ylabel('Measured Angular Position (rad)')
 title('Measured vs True Angular Position (Run 3)');
 grid on;
 
-subplot(1,2,2)
-scatter(Input_position4, Gyro_position4, 1, 'filled')
+subplot(2,1,2)
+plot(Rate_Input4, Gyro_error4)
 xlabel('True Angular Position (rad)')
 ylabel('Measured Angular Position (rad)')
 title('Measured vs True Angular Position (Run 4)');
 grid on;
 
-% Scatter with axis limits applied (zoomed in)
-figure;
-subplot(1,2,1)
-scatter(Input_position3, Gyro_position3, 'filled')
-xlabel('True Angular Position (rad)')
-ylabel('Measured Angular Position (rad)')
-title('Measured vs True Angular Position (Run 3)');
-grid on;
-xlim([0, 0.1]);  
-ylim([0, 0.1]); 
-
-subplot(1,2,2)
-scatter(Input_position4, Gyro_position4, 'filled')
-xlabel('True Angular Position (rad)')
-ylabel('Measured Angular Position (rad)')
-title('Measured vs True Angular Position (Run 4)');
-grid on;
-xlim([-1, -0.5]); 
-ylim([-1, -0.5]);
